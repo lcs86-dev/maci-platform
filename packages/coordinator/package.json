@@ -66,7 +66,7 @@
     "socket.io": "^4.7.5",
     "tar": "^7.4.1",
     "ts-node": "^10.9.1",
-    "viem": "^2.16.3"
+    "viem": "^2.21.55"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.2",
