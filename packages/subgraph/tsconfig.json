@@ -1,0 +1,18 @@
+{
+  "extend": ["./node_modules/@graphprotocol/graph-ts/tsconfig.json"],
+  "compilerOptions": {
+    "outDir": "./build",
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "target": "ES2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "lib": ["es2015", "dom"],
+    "typeRoots": ["node_modules/@types", "./src/@types/global.d.ts"]
+  },
+  "include": ["./src", "./tests", "./generated", "./scripts"]
+}

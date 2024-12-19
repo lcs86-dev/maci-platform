@@ -1,0 +1,95 @@
+{
+  "name": "maci-platform-contracts",
+  "version": "0.1.0",
+  "description": "Solidity Smart Contracts for MACI Platform",
+  "main": "build/ts/index.js",
+  "exports": {
+    ".": {
+      "types": "./build/ts/index.d.ts",
+      "default": "./build/ts/index.js"
+    },
+    "./typechain-types": {
+      "types": "./build/typechain-types/index.d.ts",
+      "default": "./build/typechain-types/index.js"
+    }
+  },
+  "bin": {
+    "maci-platform-contracts": "./build/ts/index.js"
+  },
+  "files": [
+    "build",
+    "contracts",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "watch": "tsc --watch",
+    "hardhat": "hardhat node",
+    "generateUml": "TS_NODE_TRANSPILE_ONLY=1 ts-node ./scripts/generateUml.ts",
+    "compileSol": "TS_NODE_TRANSPILE_ONLY=1 ts-node ./scripts/compileSol.ts",
+    "prebuild": "pnpm run compileSol",
+    "build": "tsc -p tsconfig.build.json",
+    "postbuild": "cp -r ./artifacts ./build",
+    "types": "tsc -p tsconfig.json --noEmit",
+    "docs": "hardhat docgen",
+    "coverage": "BLOCK_GAS_LIMIT=1599511627775 hardhat coverage",
+    "test": "hardhat test --network hardhat",
+    "deploy": "hardhat deploy-full",
+    "deploy:saigon": "pnpm run deploy --network saigon",
+    "initPoll": "hardhat initPoll",
+    "verify": "hardhat verify-full",
+    "deploy-poll": "hardhat deploy-poll",
+    "deploy:localhost": "pnpm run deploy",
+    "deploy-poll:localhost": "pnpm run deploy-poll",
+    "deploy-poll:saigon": "pnpm run deploy-poll --network saigon",
+    "initPoll:localhost": "pnpm run initPoll",
+    "deploy:optimism-sepolia": "pnpm run deploy --network optimism_sepolia",
+    "deploy-poll:optimism-sepolia": "pnpm run deploy-poll --network optimism_sepolia",
+    "initPoll:optimism-sepolia": "pnpm run initPoll --network optimism_sepolia",
+    "initPoll:saigon": "pnpm run initPoll --network saigon",
+    "verify:optimism-sepolia": "pnpm run verify --network optimism_sepolia",
+    "merge": "hardhat merge",
+    "merge:localhost": "pnpm run merge",
+    "merge:optimism-sepolia": "pnpm run merge --network optimism_sepolia",
+    "merge:saigon": "pnpm run merge --network saigon",
+    "prove": "hardhat prove",
+    "prove:sepolia": "pnpm run prove --network sepolia",
+    "prove:saigon": "pnpm run prove --network saigon",
+    "prove:localhost": "pnpm run prove",
+    "prove:optimism-sepolia": "pnpm run prove --network optimism_sepolia",
+    "submitOnChain": "hardhat submitOnChain",
+    "submitOnChain:localhost": "pnpm run submitOnChain",
+    "submitOnChain:optimism-sepolia": "pnpm run submitOnChain --network optimism_sepolia",
+    "submitOnChain:saigon": "pnpm run submitOnChain --network saigon"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.2",
+    "circomlibjs": "^0.1.7",
+    "ethers": "^6.13.4",
+    "hardhat": "^2.22.15",
+    "lowdb": "^1.0.0",
+    "maci-contracts": "0.0.0-ci.6bdb342",
+    "maci-core": "^2.4.0",
+    "maci-crypto": "^2.4.0",
+    "maci-domainobjs": "^2.4.0",
+    "solidity-docgen": "^0.6.0-beta.36"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/circomlibjs": "^0.1.6",
+    "@types/lowdb": "^1.0.15",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.2.0",
+    "@types/snarkjs": "^0.7.8",
+    "@types/uuid": "^10.0.0",
+    "chai": "^4.3.10",
+    "dotenv": "^16.4.5",
+    "hardhat-artifactor": "^0.2.0",
+    "hardhat-contract-sizer": "^2.10.0",
+    "sol2uml": "^2.5.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.5.4"
+  }
+}

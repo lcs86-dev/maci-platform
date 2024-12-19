@@ -1,0 +1,17 @@
+node_modules
+dist
+.next
+coverage
+build
+typechain-types
+.eslintrc.js
+commitlint.config.js
+zkeys
+packages/subgraph/generated
+packages/e2e/playwright.config.ts
+packages/e2e/playwright-report
+packages/interface/test-results
+packages/interface/next.config.js
+packages/interface/public/mockServiceWorker.js
+packages/interface/metamask/
+

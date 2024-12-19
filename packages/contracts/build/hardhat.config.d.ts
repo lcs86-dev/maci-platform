@@ -1,0 +1,16 @@
+import "@nomicfoundation/hardhat-toolbox";
+import "hardhat-artifactor";
+import "hardhat-contract-sizer";
+import "maci-contracts/tasks/deploy";
+import "maci-contracts/tasks/runner/deployFull";
+import "maci-contracts/tasks/runner/deployPoll";
+import "maci-contracts/tasks/runner/verifyFull";
+import "solidity-docgen";
+import type { HardhatUserConfig } from "hardhat/config";
+import "./tasks/deploy";
+import "./tasks/runner/initPoll";
+import "./tasks/runner/merge";
+import "./tasks/runner/prove";
+import "./tasks/runner/submitOnChain";
+declare const config: HardhatUserConfig;
+export default config;

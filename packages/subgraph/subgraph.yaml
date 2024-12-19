@@ -1,0 +1,144 @@
+specVersion: 1.2.0
+description: Subgraph Indexer for MACI contract
+repository: https://github.com/privacy-scaling-explorations/maci-platform
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MACI
+    network: mainnet
+    source:
+      abi: MACI
+      address: "0xC9c2abbFedFFbeeBF30FD01C7270C7FedAC02d74"
+      startBlock: 33589866
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - MACI
+        - Poll
+        - Tally
+      abis:
+        - name: MACI
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/maci/MACI.sol/MACI.json
+        - name: Poll
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/maci/Poll.sol/Poll.json
+        - name: Tally
+          file: ./abi/Tally.json
+      eventHandlers:
+        - event: DeployPoll(uint256,indexed uint256,indexed uint256,uint8)
+          handler: handleDeployPoll
+        - event: SignUp(uint256,indexed uint256,indexed uint256,uint256,uint256)
+          handler: handleSignUp
+      file: ./src/maci.ts
+  - kind: ethereum
+    name: RegistryManager
+    network: mainnet
+    source:
+      abi: RegistryManager
+      address: "0x5645f35F8f618Dc72384219096FC0a478bfe3458"
+      startBlock: 33589866
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - RegistryManager
+        - BaseRegistry
+      abis:
+        - name: RegistryManager
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/registryManager/RegistryManager.sol/RegistryManager.json
+        - name: BaseRegistry
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/registry/BaseRegistry.sol/BaseRegistry.json
+      eventHandlers:
+        - event: RequestSent(indexed address,indexed uint8,indexed bytes32,uint256,uint256,address,string)
+          handler: handleRequestSent
+        - event: RequestApproved(indexed address,indexed uint8,indexed bytes32,uint256,uint256,address,string)
+          handler: handleRequestApproved
+        - event: RequestRejected(indexed address,indexed uint8,indexed bytes32,uint256,uint256,address,string)
+          handler: handleRequestRejected
+      file: ./src/registryManager.ts
+templates:
+  - kind: ethereum
+    name: Poll
+    network: mainnet
+    source:
+      abi: Poll
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Poll
+      abis:
+        - name: Poll
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/maci/Poll.sol/Poll.json
+        - name: Registry
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/registry/BaseRegistry.sol/BaseRegistry.json
+      eventHandlers:
+        - event: MergeMaciState(indexed uint256,indexed uint256)
+          handler: handleMergeMaciState
+        - event: MergeMessageAq(indexed uint256)
+          handler: handleMergeMessageAq
+        - event: MergeMessageAqSubRoots(indexed uint256)
+          handler: handleMergeMessageAqSubRoots
+        - event: PublishMessage((uint256[10]),(uint256,uint256))
+          handler: handlePublishMessage
+        - event: SetRegistry(indexed address)
+          handler: handleSetRegistry
+        - event: PollInit()
+          handler: handleInitPoll
+      file: ./src/poll.ts
+
+  - kind: ethereum
+    name: Registry
+    network: mainnet
+    source:
+      abi: Registry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Registry
+      abis:
+        - name: Registry
+          file: ./node_modules/maci-platform-contracts/build/artifacts/contracts/registry/BaseRegistry.sol/BaseRegistry.json
+      eventHandlers:
+        - event: RecipientAdded(indexed uint256,bytes32,string,indexed address)
+          handler: handleAddRecipient
+        - event: RecipientChanged(indexed uint256,bytes32,string,indexed address)
+          handler: handleChangeRecipient
+        - event: RecipientRemoved(indexed uint256,bytes32,indexed address)
+          handler: handleRemoveRecipient
+      file: ./src/registry.ts
+
+  - kind: ethereum
+    name: Tally
+    network: mainnet
+    source:
+      abi: Tally
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Tally
+        - TallyResult
+        - Claim
+        - Deposit
+      abis:
+        - name: Tally
+          file: ./abi/Tally.json
+      eventHandlers:
+        - event: Deposited(indexed address,indexed uint256)
+          handler: handleAddDeposit
+        - event: Claimed(indexed uint256,indexed address,indexed uint256)
+          handler: handleAddClaim
+        - event: ResultAdded(indexed uint256,indexed uint256)
+          handler: handleAddResult
+      file: ./src/tally.ts
+

@@ -1,0 +1,7 @@
+{
+  "network": "mainnet",
+  "maciContractAddress": "0xC9c2abbFedFFbeeBF30FD01C7270C7FedAC02d74",
+  "maciContractStartBlock": 33589866,
+  "registryManagerContractAddress": "0x5645f35F8f618Dc72384219096FC0a478bfe3458",
+  "registryManagerContractStartBlock": 33589866
+}

@@ -1,0 +1,66 @@
+{
+  "name": "maci-platform",
+  "version": "0.1.0",
+  "description": "Minimal Anti-Collusion Infrastructure Platform",
+  "repository": "https://github.com/privacy-scaling-explorations/maci-platform",
+  "license": "MIT",
+  "scripts": {
+    "build": "lerna run build",
+    "clean": "lerna exec -- rm -rf node_modules build && rm -rf node_modules",
+    "commit": "git cz",
+    "download-zkeys:latest": "lerna run download-zkeys:latest --scope=maci-coordinator",
+    "download-zkeys:test": "lerna run download-zkeys:test --scope=maci-coordinator",
+    "download-zkeys:prod": "lerna run download-zkeys:prod --scope=maci-coordinator",
+    "prettier": "prettier -c .",
+    "prettier:fix": "prettier -w .",
+    "lint:ts": "eslint './**/**/*.ts' './**/**/*.tsx'",
+    "lint:ts:fix": "pnpm run lint:ts --fix",
+    "lint:sol": "solhint './packages/contracts/contracts/**/*.sol'",
+    "lint:sol:fix": "pnpm run lint:sol --fix --noPrompt",
+    "types": "lerna run types",
+    "docs": "lerna run docs",
+    "prepare": "is-ci || husky",
+    "start:interface": "lerna run start --scope=maci-platform-interface",
+    "start:coordinator": "lerna run start --scope=maci-coordinator",
+    "dev:interface": "lerna run dev --scope=maci-platform-interface",
+    "test:coordinator": "lerna run test --scope=maci-coordinator",
+    "hardhat": "lerna run hardhat --scope=maci-platform-interface"
+  },
+  "author": "PSE",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-json": "^4.0.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-unused-imports": "^3.2.0",
+    "husky": "^9.1.6",
+    "is-ci": "^3.0.1",
+    "lerna": "^8.1.7",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "solhint": "^5.0.3",
+    "typescript": "^5.5.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "engines": {
+    "node": "20",
+    "pnpm": "9"
+  }
+}

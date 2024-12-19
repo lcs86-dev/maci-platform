@@ -1,0 +1,150 @@
+type MACI @entity {
+  id: Bytes! # address
+  stateTreeDepth: BigInt! # uint8
+  updatedAt: BigInt!
+
+  "state"
+  numSignUps: BigInt!
+  numPoll: BigInt!
+  latestPoll: Bytes!
+
+  "relations"
+  polls: [Poll!]! @derivedFrom(field: "maci")
+}
+
+type User @entity(immutable: true) {
+  id: ID! # pubkey
+  createdAt: BigInt! # uint256
+  "relations"
+  accounts: [Account!]! @derivedFrom(field: "owner")
+}
+
+type Account @entity {
+  id: ID! # stateIndex
+  voiceCreditBalance: BigInt! # uint256
+  createdAt: BigInt! # uint256
+  "relations"
+  owner: User!
+}
+
+enum RequestType {
+  Add
+  Change
+  Remove
+}
+
+enum Status {
+  Pending
+  Approved
+  Rejected
+}
+
+type Request @entity {
+  id: String!
+  requestType: RequestType!
+  index: BigInt!
+  recipientIndex: BigInt!
+  status: Status!
+
+  "relations"
+  recipient: Recipient!
+  registryManager: RegistryManager!
+  registry: Registry!
+}
+
+type RegistryManager @entity {
+  id: Bytes! # address
+  requests: [Request!]! @derivedFrom(field: "registryManager")
+}
+
+type Recipient @entity {
+  id: Bytes!
+  metadataUrl: String!
+  payout: Bytes!
+  index: BigInt!
+  deleted: Boolean!
+  initialized: Boolean!
+
+  "relations"
+  registry: Registry!
+}
+
+type Registry @entity {
+  id: Bytes! # address
+  metadataUrl: String
+  "relations"
+  poll: Poll
+  recipients: [Recipient!]! @derivedFrom(field: "registry")
+}
+
+type Poll @entity {
+  id: Bytes! # poll address
+  pollId: BigInt! # uint256
+  duration: BigInt! # uint256
+  treeDepth: BigInt! # uint8
+  maxMessages: BigInt!
+  maxVoteOption: BigInt!
+  messageProcessor: Bytes! # address
+  tally: Tally!
+  initTime: BigInt
+  createdAt: BigInt!
+  updatedAt: BigInt!
+  mode: BigInt! # uint8
+  "merge state after ended"
+  stateRoot: BigInt # uint256
+  numSignups: BigInt! # uint256
+  numMessages: BigInt! # uint256
+  "merge message tree after ended"
+  numSrQueueOps: BigInt # uint256
+  messageRoot: BigInt
+
+  "relations"
+  owner: Bytes!
+  maci: MACI!
+  registry: Registry
+  votes: [Vote!]! @derivedFrom(field: "poll")
+}
+
+type Tally @entity {
+  id: Bytes! # tally address
+  results: [TallyResult!]! @derivedFrom(field: "tally")
+  claims: [Claim!]! @derivedFrom(field: "tally")
+  deposits: [Deposit!]! @derivedFrom(field: "tally")
+
+  "relations"
+  poll: Poll!
+}
+
+type TallyResult @entity(immutable: true) {
+  id: ID! # index
+  result: BigInt!
+
+  "relations"
+  tally: Tally!
+}
+
+type Claim @entity(immutable: true) {
+  id: ID!
+  amount: BigInt!
+
+  "relations"
+  tally: Tally!
+  recipient: Recipient!
+}
+
+type Deposit @entity(immutable: true) {
+  id: Bytes! # address
+  amount: BigInt!
+
+  "relations"
+  tally: Tally!
+}
+
+type Vote @entity(immutable: true) {
+  id: Bytes!
+  data: [BigInt!]! # uint256[10]
+  timestamp: BigInt!
+
+  "relations"
+  poll: Poll!
+}
